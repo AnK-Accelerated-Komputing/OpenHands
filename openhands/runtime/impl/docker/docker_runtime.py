@@ -516,6 +516,11 @@ class DockerRuntime(ActionExecutionClient):
         return vscode_url
 
     @property
+    def cascade_url(self) -> str | None:
+        cascade_url = f'http://localhost:{self._cascade_port}'
+        return cascade_url
+
+    @property
     def web_hosts(self) -> dict[str, int]:
         hosts: dict[str, int] = {}
 

@@ -568,6 +568,15 @@ class LocalRuntime(ActionExecutionClient):
         return f'{vscode_url}/?tkn={token}&folder={self.config.workspace_mount_path_in_sandbox}'
 
     @property
+    def cascade_url(self) -> str | None:
+        if 'localhost' in self.runtime_url:
+            return f'{self.runtime_url}:{self._cascade_port}'
+        else:
+            # Similar to remote runtime...
+            parsed_url = urlparse(self.runtime_url)
+            return f'{parsed_url.scheme}:{self._cascade_port}'
+
+    @property
     def web_hosts(self) -> dict[str, int]:
         hosts: dict[str, int] = {}
         for port in self._app_ports:

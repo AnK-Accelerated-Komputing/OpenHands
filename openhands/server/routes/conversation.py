@@ -68,6 +68,36 @@ async def get_vscode_url(
             },
         )
 
+@app.get('/cascade-url')
+async def get_cascade_url(
+    conversation: ServerConversation = Depends(get_conversation),
+) -> JSONResponse:
+    """Get the Cascade Editor URL.
+
+    This endpoint allows getting the Cascade Editor URL.
+
+    Args:
+        request (Request): The incoming FastAPI request object.
+
+    Returns:
+        JSONResponse: A JSON response indicating the success of the operation.
+    """
+    try:
+        runtime: Runtime = conversation.runtime
+        logger.debug(f'Runtime type: {type(runtime)}')
+        logger.debug(f'Runtime Cascade URL: {runtime.cascade_url}')
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content={'cascade_url': runtime.cascade_url}
+        )
+    except Exception as e:
+        logger.error(f'Error getting Cascade Editor URL: {e}')
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                'cascade_url': None,
+                'error': f'Error getting Cascade Editor URL: {e}',
+            },
+        )
 
 @app.get('/web-hosts')
 async def get_hosts(

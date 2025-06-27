@@ -66,7 +66,7 @@ from openhands.runtime.file_viewer_server import start_file_viewer_server
 
 # Import our custom MCP Proxy Manager
 from openhands.runtime.mcp.proxy import MCPProxyManager
-from openhands.runtime.plugins import ALL_PLUGINS, JupyterPlugin, Plugin, VSCodePlugin
+from openhands.runtime.plugins import ALL_PLUGINS, JupyterPlugin, Plugin, VSCodePlugin, CascadePlugin
 from openhands.runtime.utils import find_available_tcp_port
 from openhands.runtime.utils.bash import BashSession
 from openhands.runtime.utils.files import insert_lines, read_lines

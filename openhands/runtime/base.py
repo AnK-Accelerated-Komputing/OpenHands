@@ -58,6 +58,7 @@ from openhands.runtime.plugins import (
     JupyterRequirement,
     PluginRequirement,
     VSCodeRequirement,
+    CascadeRequirement
 )
 from openhands.runtime.runtime_status import RuntimeStatus
 from openhands.runtime.utils.edit import FileEditRuntimeMixin
@@ -145,6 +146,8 @@ class Runtime(FileEditRuntimeMixin):
         # add VSCode plugin if not in headless mode
         if not headless_mode:
             self.plugins.append(VSCodeRequirement())
+            self.plugins.append(CascadeRequirement())
+
 
         self.status_callback = status_callback
         self.attach_to_existing = attach_to_existing
@@ -169,6 +172,10 @@ class Runtime(FileEditRuntimeMixin):
 
         self._vscode_enabled = any(
             isinstance(plugin, VSCodeRequirement) for plugin in self.plugins
+        )
+
+        self._cascade_enabled = any(
+            isinstance(plugin, CascadeRequirement) for plugin in self.plugins
         )
 
         # Load mixins
@@ -967,8 +974,28 @@ fi
         raise NotImplementedError('This method is not implemented in the base class.')
 
     @property
+    def cascade_url(self) -> str | None:
+        """
+        This property should return the URL of the Cascade Editor if it is enabled.
+        It is not implemented in the base class and should be overridden by subclasses.
+        """
+        raise NotImplementedError('This method is not implemented in the base class.')
+
+    @property
     def web_hosts(self) -> dict[str, int]:
         return {}
+
+    # ====================================================================
+    # Cascade Editor
+    # ====================================================================
+
+    @property
+    def cascade_enabled(self) -> bool:
+        return self._cascade_enabled
+
+    @property
+    def cadcade_url(self) -> str | None:
+        raise NotImplementedError('This method is not implemented in the base class.')
 
     # ====================================================================
     # Git
