@@ -8,7 +8,8 @@ ENV POETRY_VIRTUALENVS_PATH=/openhands/poetry \
     EDITOR=code \
     VISUAL=code \
     GIT_EDITOR="code --wait" \
-    OPENVSCODE_SERVER_ROOT=/openhands/.openvscode-server
+    OPENVSCODE_SERVER_ROOT=/openhands/.openvscode-server \
+    CASCADESTUDIO_ROOT=/openhands/.cascade-studio
 
 {% macro setup_base_system() %}
 
@@ -101,6 +102,28 @@ RUN mkdir -p ${OPENVSCODE_SERVER_ROOT}/extensions/openhands-memory-monitor && \
 RUN rm -rf ${OPENVSCODE_SERVER_ROOT}/extensions/{handlebars,pug,json,diff,grunt,ini,npm}
 {% endmacro %}
 
+{% macro setup_cascade_editor() %}
+# Reference:
+# 1. https://github.com/zalo/CascadeStudio.git
+
+# ARG USER_UID=1000
+# ARG USER_GID=1000
+
+RUN wget https://github.com/krishbin-ank/CascadeStudio/archive/refs/tags/202506262213.tar.gz && \
+    tar -xzf 202506262213.tar.gz && \
+    rm -f 202506262213.tar.gz && \
+    mv CascadeStudio* ${CASCADESTUDIO_ROOT}
+
+    # Install nginx and remove default config
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nginx gettext && \
+    rm -f /etc/nginx/sites-enabled/default
+
+
+# Expose port 12000 for the Cascade Editor debug
+
+{% endmacro %}
+
 {% macro install_dependencies() %}
 # Install all dependencies
 WORKDIR /openhands/code
@@ -176,7 +199,7 @@ COPY ./code/openhands /openhands/code/openhands
 RUN chmod a+rwx /openhands/code/openhands/__init__.py
 
 {{ setup_vscode_server() }}
-
+{{ setup_cascade_editor() }}
 # ================================================================
 # END: Build from versioned image
 # ================================================================
