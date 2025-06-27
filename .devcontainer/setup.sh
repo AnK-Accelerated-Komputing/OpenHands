@@ -5,7 +5,7 @@
 git config --global --add safe.directory "$(realpath .)"
 
 # Install `nc`
-sudo apt update && sudo apt install netcat -y
+sudo apt update && sudo apt install netcat-openbsd -y
 
 # Do common setup tasks
 source .openhands/setup.sh
