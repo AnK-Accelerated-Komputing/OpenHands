@@ -32,6 +32,7 @@ class DaytonaRuntime(ActionExecutionClient):
 
     _sandbox_port: int = 4444
     _vscode_port: int = 4445
+    _cascade_port: int = 5111
 
     def __init__(
         self,
@@ -58,6 +59,7 @@ class DaytonaRuntime(ActionExecutionClient):
         self.sid = sid
         self.sandbox: Sandbox | None = None
         self._vscode_url: str | None = None
+        self._cascade_url: str | None = None
 
         daytona_config = DaytonaConfig(
             api_key=daytona_api_key,
@@ -110,6 +112,7 @@ class DaytonaRuntime(ActionExecutionClient):
             'port': str(self._sandbox_port),
             'PYTHONUNBUFFERED': '1',
             'VSCODE_PORT': str(self._vscode_port),
+            'CASCADE_PORT': str(self._cascade_port),
         }
 
         if self.config.debug:

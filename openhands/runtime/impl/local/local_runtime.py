@@ -50,6 +50,7 @@ class ActionExecutionServerInfo:
     process: subprocess.Popen
     execution_server_port: int
     vscode_port: int
+    cascade_port: int
     app_ports: list[int]
     log_thread: threading.Thread
     log_thread_exit_event: threading.Event
@@ -172,6 +173,7 @@ class LocalRuntime(ActionExecutionClient):
         # Initialize these values to be set in connect()
         self._temp_workspace: str | None = None
         self._execution_server_port = -1
+        self._cascade_port = -1
         self._vscode_port = -1
         self._app_ports: list[int] = []
 
@@ -223,6 +225,7 @@ class LocalRuntime(ActionExecutionClient):
             self._log_thread = server_info.log_thread
             self._log_thread_exit_event = server_info.log_thread_exit_event
             self._vscode_port = server_info.vscode_port
+            self._cascade_port = server_info.cascade_port
             self._app_ports = server_info.app_ports
             self._temp_workspace = server_info.temp_workspace
             self.config.workspace_mount_path_in_sandbox = (
@@ -269,6 +272,10 @@ class LocalRuntime(ActionExecutionClient):
                 os.getenv('VSCODE_PORT')
                 or str(self._find_available_port(VSCODE_PORT_RANGE))
             )
+            self._cascade_port = int(
+                os.getenv('CASCADE_PORT')
+                or str(self._find_available_port(APP_PORT_RANGE_1))
+            )
             self._app_ports = [
                 int(
                     os.getenv('APP_PORT_1')
@@ -303,6 +310,7 @@ class LocalRuntime(ActionExecutionClient):
             env['OPENHANDS_REPO_PATH'] = code_repo_path
             env['LOCAL_RUNTIME_MODE'] = '1'
             env['VSCODE_PORT'] = str(self._vscode_port)
+            env['CASCADE_PORT'] = str(self._cascade_port)
 
             # Derive environment paths using sys.executable
             interpreter_path = sys.executable
@@ -381,6 +389,7 @@ class LocalRuntime(ActionExecutionClient):
                 process=self.server_process,
                 execution_server_port=self._execution_server_port,
                 vscode_port=self._vscode_port,
+                cascade_port=self._cascade_port,
                 app_ports=self._app_ports,
                 log_thread=self._log_thread,
                 log_thread_exit_event=self._log_thread_exit_event,

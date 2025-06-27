@@ -281,6 +281,10 @@ class DockerRuntime(ActionExecutionClient):
             self.config.sandbox.vscode_port
             or self._find_available_port(VSCODE_PORT_RANGE)
         )
+        self._cascade_port = (
+            self.config.sandbox.cascade_port
+            or self._find_available_port(VSCODE_PORT_RANGE)
+        )
         self._app_ports = [
             self._find_available_port(APP_PORT_RANGE_1),
             self._find_available_port(APP_PORT_RANGE_2),
@@ -311,7 +315,13 @@ class DockerRuntime(ActionExecutionClient):
                         'HostIp': self.config.sandbox.runtime_binding_address,
                     }
                 ]
-
+            if self._cascade_port:
+                port_mapping[f'{self._cascade_port}/tcp'] = [
+                    {
+                        'HostPort': str(self._cascade_port),
+                        'HostIp': self.config.sandbox.runtime_binding_address,
+                    }
+                ]
             for port in self._app_ports:
                 port_mapping[f'{port}/tcp'] = [
                     {
@@ -333,6 +343,7 @@ class DockerRuntime(ActionExecutionClient):
                 'PYTHONUNBUFFERED': '1',
                 # Passing in the ports means nested runtimes do not come up with their own ports!
                 'VSCODE_PORT': str(self._vscode_port),
+                'CASCADE_PORT': str(self._cascade_port),
                 'APP_PORT_1': str(self._app_ports[0]),
                 'APP_PORT_2': str(self._app_ports[1]),
                 'PIP_BREAK_SYSTEM_PACKAGES': '1',
@@ -415,6 +426,8 @@ class DockerRuntime(ActionExecutionClient):
                 self._container_port = self._host_port
             elif env_var.startswith('VSCODE_PORT='):
                 self._vscode_port = int(env_var.split('VSCODE_PORT=')[1])
+            elif env_var.startswith('CASCADE_PORT='):
+                self._cascade_port = int(env_var.split('CASCADE_PORT=')[1])
 
         self._app_ports = []
         exposed_ports = config.get('ExposedPorts')
@@ -424,6 +437,7 @@ class DockerRuntime(ActionExecutionClient):
                 if (
                     exposed_port != self._host_port
                     and exposed_port != self._vscode_port
+                    and exposed_port != self._cascade_port
                 ):
                     self._app_ports.append(exposed_port)
 
