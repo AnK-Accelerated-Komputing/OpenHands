@@ -293,6 +293,9 @@ docker-run:
 		export WORKSPACE_BASE=${WORKSPACE_BASE}; \
 		export SANDBOX_USER_ID=$(shell id -u); \
 		export DATE=$(shell date +%Y%m%d%H%M%S); \
+		export DEBUG=1; \
+		export LOG_TO_FILE=true; \
+		export LOG_ALL_EVENTS=true; \
 		docker compose up $(OPTIONS); \
 	fi
 
