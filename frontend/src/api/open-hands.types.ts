@@ -60,6 +60,11 @@ export interface GetVSCodeUrlResponse {
   error?: string;
 }
 
+export interface GetCascadeUrlResponse {
+  cascade_url: string | null;
+  error?: string;
+}
+
 export interface GetTrajectoryResponse {
   trajectory: unknown[] | null;
   error?: string;

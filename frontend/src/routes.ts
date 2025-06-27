@@ -26,6 +26,7 @@ export default [
       route("served", "routes/served-tab.tsx"),
       route("terminal", "routes/terminal-tab.tsx"),
       route("vscode", "routes/vscode-tab.tsx"),
+      route("cascade", "routes/cascade-tab.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

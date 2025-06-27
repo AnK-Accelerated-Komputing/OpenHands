@@ -181,6 +181,15 @@ function AppContent() {
                 to: "browser",
                 icon: <GlobeIcon />,
               },
+              {
+                label: (
+                  <div className="flex items-center gap-1">
+                    {t(I18nKey.CASCADE$TITLE)}
+                  </div>
+                ),
+                to: "cascade",
+                icon: <GlobeIcon className="rotate-90" />,
+              },
             ]}
           >
             {/* Use both Outlet and TabContent */}

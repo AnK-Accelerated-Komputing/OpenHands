@@ -11,6 +11,7 @@ import {
   GetTrajectoryResponse,
   GitChangeDiff,
   GitChange,
+  GetCascadeUrlResponse,
   GetMicroagentsResponse,
   GetMicroagentPromptResponse,
 } from "./open-hands.types";
@@ -228,6 +229,20 @@ class OpenHands {
   ): Promise<GetVSCodeUrlResponse> {
     const url = `${this.getConversationUrl(conversationId)}/vscode-url`;
     const { data } = await openHands.get<GetVSCodeUrlResponse>(url, {
+      headers: this.getConversationHeaders(),
+    });
+    return data;
+  }
+
+  /**
+   * Get the Cascade URL
+   * @returns Cascade URL
+   */
+  static async getCascadeUrl(
+    conversationId: string,
+  ): Promise<GetCascadeUrlResponse> {
+    const url = `${this.getConversationUrl(conversationId)}/cascade-url`;
+    const { data } = await openHands.get<GetCascadeUrlResponse>(url, {
       headers: this.getConversationHeaders(),
     });
     return data;

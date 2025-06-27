@@ -2207,6 +2207,22 @@
         "tr": "VS Code",
         "uk": "VS Code"
     },
+    "CASCADE$TITLE": {
+        "en": "CASCADE",
+        "ja": "CASCADE",
+        "zh-CN": "CASCADE",
+        "zh-TW": "CASCADE",
+        "ko-KR": "CASCADE",
+        "de": "CASCADE",
+        "no": "CASCADE",
+        "it": "CASCADE",
+        "pt": "CASCADE",
+        "es": "CASCADE",
+        "ar": "CASCADE",
+        "fr": "CASCADE",
+        "tr": "CASCADE",
+        "uk": "CASCADE"
+    },
     "VSCODE$LOADING": {
         "en": "Loading VS Code...",
         "ja": "VS Codeを読み込み中...",
@@ -2238,6 +2254,22 @@
         "fr": "URL VS Code non disponible",
         "tr": "VS Code URL'si mevcut değil",
         "uk": "VS Code URL недоступний"
+    },
+    "CASCADE$URL_NOT_AVAILABLE": {
+        "en": "CASCADE URL not available",
+        "ja": "CASCADE URLが利用できません",
+        "zh-CN": "CASCADE URL不可用",
+        "zh-TW": "CASCADE URL不可用",
+        "ko-KR": "CASCADE URL을 사용할 수 없습니다",
+        "de": "CASCADE URL nicht verfügbar",
+        "no": "CASCADE URL ikke tilgjengelig",
+        "it": "URL di CASCADE non disponibile",
+        "pt": "URL do CASCADE não disponível",
+        "es": "URL de CASCADE no disponible",
+        "ar": "رابط CASCADE غير متوفر",
+        "fr": "URL CASCADE non disponible",
+        "tr": "CASCADE URL'si mevcut değil",
+        "uk": "CASCADE URL недоступний"
     },
     "VSCODE$FETCH_ERROR": {
         "en": "Failed to fetch VS Code URL",
