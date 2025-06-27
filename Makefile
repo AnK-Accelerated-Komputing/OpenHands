@@ -294,6 +294,7 @@ docker-run:
 		export SANDBOX_USER_ID=$(shell id -u); \
 		export DATE=$(shell date +%Y%m%d%H%M%S); \
 		export DEBUG=1; \
+		export SANDBOX_RUNTIME_CONTAINER_IMAGE=oh-ank-runtime:latest; \
 		export LOG_TO_FILE=true; \
 		export LOG_ALL_EVENTS=true; \
 		docker compose up $(OPTIONS); \
